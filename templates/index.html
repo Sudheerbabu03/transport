@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Styled Form Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(-45deg, #ff7e5f, #feb47b, #86a8e7, #91eae4);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+        }
+        @keyframes gradient {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 md:p-12 rounded-3xl shadow-2xl w-full max-w-5xl">
+        <h1 class="text-3xl md:text-5xl font-bold mb-10 text-gray-800 text-center">Data Entry Form</h1>
+        <form method="POST" class="space-y-8">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Product ID</label>
+                    <input type="text" name="product_id" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Invoice Number</label>
+                    <input type="text" name="invoice" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Receiver Name</label>
+                    <input type="text" name="receiver_name" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Date of Booking</label>
+                    <input type="date" name="booking_date" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Date of Delivery</label>
+                    <input type="date" name="delivery_date" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Description</label>
+                    <input type="text" name="description" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">No. of Articles</label>
+                    <input type="number" name="quantity" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">To Pay</label>
+                    <input type="text" name="to_pay" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Place of Delivery</label>
+                    <input type="text" name="place" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Consignee Person</label>
+                    <input type="text" name="consignee_person" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Vehicle Number</label>
+                    <input type="text" name="vehicle_number" class="w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-200 transition" required>
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg font-bold shadow-lg hover:bg-blue-600 transition-all">Submit</button>
+            <a href="/" class="block w-full bg-gray-300 text-gray-700 py-3 mt-4 rounded-lg font-bold text-center shadow-lg hover:bg-gray-400 transition-all">Back</a>
+        </form>
+    </div>
+</body>
+</html>

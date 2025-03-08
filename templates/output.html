@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive User Data Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-green-400 to-blue-500 min-h-screen p-6 flex flex-col items-center">
+    <div class="w-full bg-white p-6 md:p-8 lg:p-10 rounded-3xl shadow-2xl">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center text-gray-800">User Data</h1>
+
+        <!-- Search Form -->
+        <form method="GET" class="flex justify-center mb-6">
+            
+            <input type="text" name="search" value="{{ search_query }}" 
+                   placeholder="Search by Product ID..." 
+                   class="w-full max-w-md p-2 border border-gray-300 rounded-l-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+            <button type="submit" class="px-4 bg-green-500 text-white rounded-r-lg shadow-md hover:bg-green-600 ml-3">Search</button>
+
+            <button type="button" 
+            onclick="window.location.href='/'" 
+            class="px-4 bg-gray-500 text-white rounded-l-lg shadow-md hover:bg-gray-600 ml-3">
+        Back
+    </button>
+        </form>
+ 
+
+        <!-- Product Table (Visible on large screens) -->
+        <div class="overflow-auto hidden md:block">
+            <table class="w-full bg-white border border-gray-200">
+                <thead class="bg-green-500 text-white">
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Invoice</th>
+                        <th>Receiver Name</th>
+                        <th>Booking Date</th>
+                        <th>Delivery Date</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>To Pay</th>
+                        <th>Place</th>
+                        <th>Consignee Person</th>
+                        <th>Vehicle Number</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in PO %}
+                        {% if request.GET.search|default:'' == '' or product.product_id == request.GET.search %}
+                        <tr class="even:bg-gray-100 hover:bg-green-100">
+                            <form method="POST" class="flex w-full">
+                                {% csrf_token %}
+                                <td>
+                                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                                    {{ product.product_id }}
+                                </td>
+                                <td><input type="text" name="invoice" value="{{ product.invoice }}" class="p-1 border w-full"></td>
+                                <td><input type="text" name="receiver_name" value="{{ product.receiver_name }}" class="p-1 border w-full"></td>
+
+                                <td>
+                                    <input type="date" name="booking_date" 
+                                           value="{{ product.booking_date|date:'Y-m-d' }}" 
+                                           class="p-1 border w-full">
+                                </td>
+                                <td>
+                                    <input type="date" name="delivery_date" 
+                                           value="{{ product.delivery_date|date:'Y-m-d' }}" 
+                                           class="p-1 border w-full">
+                                </td>
+
+                                <td><input type="text" name="description" value="{{ product.description }}" class="p-1 border w-full"></td>
+                                <td><input type="number" name="quantity" value="{{ product.quantity }}" class="p-1 border w-full"></td>
+                                <td><input type="number" name="to_pay" value="{{ product.to_pay }}" class="p-1 border w-full"></td>
+                                <td><input type="text" name="place" value="{{ product.place }}" class="p-1 border w-full"></td>
+                                <td><input type="text" name="consignee_person" value="{{ product.consignee_person }}" class="p-1 border w-full"></td>
+                                <td><input type="text" name="vehicle_number" value="{{ product.vehicle_number }}" class="p-1 border w-full"></td>
+                                
+                                <td class="flex gap-2">
+                                    <button type="submit" name="action" value="update" 
+                                            class="bg-blue-500 text-white px-2 py-1 rounded-lg hover:bg-blue-600">Update</button>
+                                    <button type="submit" name="action" value="delete" 
+                                            class="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600">Delete</button>
+                                </td>
+                            </form>
+                        </tr>
+                        {% endif %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="12" class="text-center p-4">No records found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Card View for Small/Medium Devices -->
+        <div class="md:hidden space-y-4">
+            {% for product in PO %}
+                <form method="POST" class="bg-white p-4 rounded-xl shadow-lg flex flex-col gap-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                    <p><strong>Product ID:</strong> {{ product.product_id }}</p>
+                    <input type="text" name="invoice" value="{{ product.invoice }}" placeholder="Invoice" class="p-1 border">
+                    <input type="text" name="receiver_name" value="{{ product.receiver_name }}" placeholder="Receiver Name" class="p-1 border">
+                    <input type="date" name="booking_date" value="{{ product.booking_date|date:'Y-m-d' }}" class="p-1 border">
+                    <input type="date" name="delivery_date" value="{{ product.delivery_date|date:'Y-m-d' }}" class="p-1 border">
+                    <input type="text" name="description" value="{{ product.description }}" placeholder="Description" class="p-1 border">
+                    <input type="number" name="quantity" value="{{ product.quantity }}" placeholder="Quantity" class="p-1 border">
+                    <input type="number" name="to_pay" value="{{ product.to_pay }}" placeholder="To Pay" class="p-1 border">
+                    <input type="text" name="place" value="{{ product.place }}" placeholder="Place" class="p-1 border">
+                    <input type="text" name="consignee_person" value="{{ product.consignee_person }}" placeholder="Consignee Person" class="p-1 border">
+                    <input type="text" name="vehicle_number" value="{{ product.vehicle_number }}" placeholder="Vehicle Number" class="p-1 border">
+                    
+                    <div class="flex gap-2 mt-2">
+                        <button type="submit" name="action" value="update" class="w-full bg-blue-500 text-white p-2 rounded-lg">Update</button>
+                        <button type="submit" name="action" value="delete" class="w-full bg-red-500 text-white p-2 rounded-lg">Delete</button>
+                    </div>
+                </form>
+            {% empty %}
+                <p class="text-center text-white">No records found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
